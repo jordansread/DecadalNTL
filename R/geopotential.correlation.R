@@ -3,7 +3,7 @@ source('create.corrmap.R')
 require(ncdf4)
 library(Hmisc)
 
-corr.stage	<-	TRUE
+corr.stage	<-	FALSE
 p.val  <-	0.05
 corr.method  <-	'pearson'
 
@@ -16,11 +16,13 @@ if (corr.stage){
 	correlate	<- Stage$Agg_S_anomaly[6:length(Stage$Agg_S_anomaly)] # starting in 1948...
 	yyyy.use	<-	seq(48, 111, 1)
   plot.title<- 'Correlation between GPH and lake stage'
+  plot.output<- 'stageCorrGPH'
 } else {
 	year.use  <-	seq(1948, 2010, 1)
 	correlate	<-	get.delstage(year.use,c(4,9))
 	yyyy.use	<-	seq(48, 110, 1)
 	plot.title<- 'Correlation between GPH and change in lake stage'
+	plot.output<- 'delStageCorrGPH'
 }
 
 
@@ -86,4 +88,4 @@ dat_grid$value	<-	as.vector(corr)#as.vector(m)
 p_grid	<-	expand.grid(x=lon,y=lat)
 p_grid$value	<-	as.vector(pvals)
 
-create.corrmap(plot.title,dat_grid,p_grid)
+create.corrmap(plot.title,dat_grid,p_grid,output=plot.output)
