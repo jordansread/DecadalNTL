@@ -38,18 +38,18 @@ p.val  <-	.05
 month.use	<-	c(4,5,6,7,8,9) # FIXXXX
 
 corr.stage	<-	FALSE
-delStage	<- read.table('/Users/jread/Desktop/Science Projects/Watras_decadal/Data/delStage_corr_P-E.txt')
-Stage	<-	read.table('/Users/jread/Desktop/Science Projects/Watras_decadal/Data/year_stage.tsv',header = TRUE,
+Stage	<-	read.table('../data/year_stage.tsv',header = TRUE,
 	sep = "\t")
 if (corr.stage){
 	correlate	<- Stage$Agg_S_anomaly # starting in 1943...
 	year.use	<-	seq(1943, 2011, 1)
 	plot.title<-"Correlation between SST and stage"
+	plot.output	<-	"stageCorrSST"
 } else {
 	year.use	<-	seq(1943, 2010, 1)
 	correlate	<-	get.delstage(year.use,month.use)
-	#correlate	<- delStage$delStage # starting in 1943...
 	plot.title<-"Correlation between SST and change in lake stage"
+	plot.output	<-	"delstageCorrSST"
 }
 
 
@@ -60,7 +60,7 @@ lat.dim	<-	180
 SST	<-	array(NA, dim=c(long.dim,lat.dim,time.dim))
 holding	<-	array(NA, dim=c(long.dim,lat.dim,MM.dim))
 
-rootDir	<-	'/Users/jread/Desktop/Science Projects/Watras_decadal/Data/SST files/'
+rootDir	<-	'../data/SST files/'
 fileN	<-	c(
 	'HadISST1_SST_1931-1960.txt',
 	'HadISST1_SST_1961-1990.txt',
@@ -150,4 +150,4 @@ dat_grid$value	<-	as.vector(corr)#as.vector(m)
 p_grid	<-	expand.grid(x=lon,y=lat)
 p_grid$value	<-	as.vector(pvals)
 
-create.corrmap(plot.title,dat_grid,p_grid,corr.lims=c(-0.4,0.4))
+create.corrmap(plot.title,dat_grid,p_grid,output=plot.output,corr.lims=c(-0.4,0.4))
