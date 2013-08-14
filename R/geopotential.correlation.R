@@ -3,23 +3,20 @@ source('create.corrmap.R')
 require(ncdf4)
 library(Hmisc)
 
-corr.stage	<-	FALSE
+corr.stage	<-	TRUE
 p.val  <-	0.05
 corr.method  <-	'pearson'
 
 # stopped here...
 
-geopot.nc	<- 	nc_open('/Users/jread/Desktop/Science Projects/Watras_decadal/Data/hgt.mon.mean.nc')
-
-delStage	<- read.table('/Users/jread/Desktop/Science Projects/Watras_decadal/Data/delStage_corr_P-E.txt')
-Stage	<-	read.table('/Users/jread/Desktop/Science Projects/Watras_decadal/Data/year_stage.tsv',header = TRUE,
+geopot.nc	<- 	nc_open('../data/hgt.mon.mean.nc')
+Stage	<-	read.table('../data/year_stage.tsv',header = TRUE,
 	sep = "\t")
 if (corr.stage){
 	correlate	<- Stage$Agg_S_anomaly[6:length(Stage$Agg_S_anomaly)] # starting in 1948...
 	yyyy.use	<-	seq(48, 111, 1)
   plot.title<- 'Correlation between GPH and lake stage'
 } else {
-	#correlate	<- delStage$delStage[6:length(delStage$delStage)] # starting in 1948...
 	year.use  <-	seq(1948, 2010, 1)
 	correlate	<-	get.delstage(year.use,c(4,9))
 	yyyy.use	<-	seq(48, 110, 1)
