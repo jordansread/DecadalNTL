@@ -3,7 +3,7 @@ source('create.corrmap.R')
 require(ncdf4)
 library(Hmisc)
 
-corr.stage	<-	FALSE
+corr.stage	<-	TRUE
 p.val  <-	0.05
 corr.method  <-	'pearson'
 
