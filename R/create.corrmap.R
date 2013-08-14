@@ -12,6 +12,8 @@ create.corrmap	<-	function(plot.title,dat_grid,p_grid,output='output',corr.lims=
 	
 	require(ggplot2)
 	require(maps)
+	library(grid) 
+	
 	world<- map('world2',interior=FALSE,plot=FALSE,fill=TRUE)
 	head(fortify(world))
 	heat.plot<- (ggplot()+geom_raster(data=dat_grid,aes(x,y,fill=value))+
@@ -22,7 +24,7 @@ create.corrmap	<-	function(plot.title,dat_grid,p_grid,output='output',corr.lims=
 	  theme_bw())
 
 	image	<-	heat.plot+
-	  scale_x_continuous(name='',labels = c('160ºW','160ºE','120ºE','80ºE','40ºE'),breaks=c(160,200,240,280,320),limits=xLim)+
+	  scale_x_continuous(name='',labels = c('160ºE','160ºW','120ºW','80ºW','40ºW'),breaks=c(160,200,240,280,320),limits=xLim)+
 	  scale_y_continuous(name='',labels = c('20ºN','40ºN','60ºN'),breaks=c(20,40,60),limits=yLim)+
 	  coord_cartesian(xlim = xLim,ylim=yLim)+
 	  theme(legend.position = c(.92, .33),
