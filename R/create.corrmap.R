@@ -1,4 +1,4 @@
-create.corrmap	<-	function(plot.title,dat_grid,p_grid,output='output',corr.lims=c(-0.4,0.4)){
+create.corrmap	<-	function(plot.title,dat_grid,p_grid,output='output',corr.lims=c(-0.4,0.4),map.layer='bottom'){
 	
 	image.file	<-	paste('../Figures/',output,'.pdf',sep='')
 	# map used is 0 to 360º
@@ -16,12 +16,27 @@ create.corrmap	<-	function(plot.title,dat_grid,p_grid,output='output',corr.lims=
 	
 	world<- map('world2',interior=FALSE,plot=FALSE,fill=TRUE)
 	head(fortify(world))
-	heat.plot<- (ggplot()+geom_raster(data=dat_grid,aes(x,y,fill=value))+
-	  geom_contour(data=p_grid,aes(x,y,z=value),colour='white',size=1.,bins=1,linetype = 5)+
-	  geom_path(aes(long,lat,group=group),data=world)+
-	  scale_fill_gradient2(mid='grey80', high="red", low="blue",na.value='white',guide='legend',limits=corr.lims)+
-	  labs(list(title = plot.title))+
-	  theme_bw())
+	
+	if (map.layer=='top'){
+		heat.plot<- (ggplot()+
+			geom_raster(data=dat_grid,aes(x,y,fill=value))+
+		  	geom_polygon(aes(x=long,y=lat,group=group),fill='white',alpha=1,data=world)+
+			geom_path(aes(x=long,y=lat,group=group),data=world)+
+		  	geom_contour(data=p_grid,aes(x,y,z=value),colour='white',size=1.,bins=1,linetype = 5)+
+		  	scale_fill_gradient2(mid='grey80', high="red", low="blue",na.value='white',guide='legend',limits=corr.lims)+
+		  	labs(list(title = plot.title))+
+		  	theme_bw())
+	} else {
+		heat.plot<- (ggplot()+
+		  	geom_polygon(aes(x=long,y=lat,group=group),fill='white',alpha=1,data=world)+
+			geom_raster(data=dat_grid,aes(x,y,fill=value))+
+			geom_path(aes(x=long,y=lat,group=group),data=world)+
+		  	geom_contour(data=p_grid,aes(x,y,z=value),colour='white',size=1.,bins=1,linetype = 5)+
+		  	scale_fill_gradient2(mid='grey80', high="red", low="blue",na.value='white',guide='legend',limits=corr.lims)+
+		  	labs(list(title = plot.title))+
+		  	theme_bw())
+	}
+	
 
 	image	<-	heat.plot+
 	  scale_x_continuous(name='',labels = c('160ºE','160ºW','120ºW','80ºW','40ºW'),breaks=c(160,200,240,280,320),limits=xLim)+

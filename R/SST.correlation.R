@@ -37,13 +37,13 @@ p.val  <-	.05
 
 month.use	<-	c(4,5,6,7,8,9) # FIXXXX
 
-corr.stage	<-	FALSE
+corr.stage	<-	TRUE
 Stage	<-	read.table('../data/year_stage.tsv',header = TRUE,
 	sep = "\t")
 if (corr.stage){
 	correlate	<- Stage$Agg_S_anomaly # starting in 1943...
 	year.use	<-	seq(1943, 2011, 1)
-	plot.title<-"Correlation between SST and stage"
+	plot.title<-"Correlation between SST and lake stage"
 	plot.output	<-	"stageCorrSST"
 } else {
 	year.use	<-	seq(1943, 2010, 1)
@@ -150,4 +150,4 @@ dat_grid$value	<-	as.vector(corr)#as.vector(m)
 p_grid	<-	expand.grid(x=lon,y=lat)
 p_grid$value	<-	as.vector(pvals)
 
-create.corrmap(plot.title,dat_grid,p_grid,output=plot.output,corr.lims=c(-0.4,0.4))
+create.corrmap(plot.title,dat_grid,p_grid,output=plot.output,corr.lims=c(-0.4,0.4),map.layer='top')
