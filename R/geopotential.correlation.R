@@ -2,7 +2,7 @@ source('get.delstage.R')
 source('create.corrmap.R')
 require(ncdf4)
 library(Hmisc)
-
+write.corr	<-	FALSE
 corr.stage	<-	FALSE
 p.val  <-	0.05
 corr.method  <-	'pearson'
@@ -25,8 +25,15 @@ if (corr.stage){
 	plot.output<- 'delStageCorrGPH'
 }
 
+## 
+if (write.corr){
+	la.out	<-	data.frame(DateTime=year.use,delStage=correlate)
+	output = "../data/delStage_out.txt"
+	write.table(la.out,file=output,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
+}
 
 
+##
 level.use	<-	500
 
 month.use	<-	c("Apr","May","Jun","Jul","Aug","Sep")
